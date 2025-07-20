@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation Full Stack MERN - TOP EXCELLENCE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<style>
+/* --- VARIABLES & RESET --- */
+:root {
+    --primary-dark: #0f0f23;
+    --secondary-dark: #1a1a2e;
+    --accent-blue: #0070f3;
+    --accent-green: #00d084;
+    --accent-yellow: #f7df1e;
+    --accent-purple: #7c3aed;
+    --accent-orange: #ff6b35;
+    --text-white: #ffffff;
+    --text-gray: #a0a0a0;
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --font-tech: 'JetBrains Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+    --shadow-glow: 0 20px 40px rgba(102, 126, 234, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--primary-dark);
+    color: var(--text-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.6); }
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* --- BACKGROUND EFFECTS --- */
+.floating-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.floating-element {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgba(102, 126, 234, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-element:nth-child(1) {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+    background: radial-gradient(circle, rgba(0, 112, 243, 0.1) 0%, transparent 70%);
+}
+
+.floating-element:nth-child(2) {
+    top: 20%;
+    right: 15%;
+    animation-delay: 2s;
+    background: radial-gradient(circle, rgba(0, 208, 132, 0.1) 0%, transparent 70%);
+}
+
+.floating-element:nth-child(3) {
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+    background: radial-gradient(circle, rgba(247, 223, 30, 0.1) 0%, transparent 70%);
+}
+
+.floating-element:nth-child(4) {
+    bottom: 30%;
+    right: 20%;
+    animation-delay: 1s;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+}
+
+/* --- HERO SECTION --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    background: radial-gradient(circle at center, var(--secondary-dark) 0%, var(--primary-dark) 70%);
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23667eea' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.header-logo {
+    position: absolute;
+    top: 40px;
+    left: 5%;
+    z-index: 10;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    padding: 20px 30px;
+    border-radius: 20px;
+    border: 2px solid var(--accent-blue);
+    animation: glow 3s ease-in-out infinite;
+    background-color: #a0a0a0;
+}
+
+.header-logo img {
+    max-width: 250px;
+    height: auto;
+    filter: brightness(1.2);
+}
+
+.hero-content {
+    max-width: 1000px;
+    z-index: 5;
+    position: relative;
+    animation: slideInUp 1s ease-out;
+}
+
+.hero-title {
+    font-family: var(--font-body);
+    font-size: 4.5rem;
+    font-weight: 900;
+    margin-bottom: 30px;
+    line-height: 1.1;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    color: var(--text-gray);
+    margin-bottom: 50px;
+    font-weight: 400;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tech-stack {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.tech-badge {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: 2px solid transparent;
+    font-family: var(--font-tech);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    animation: float 4s ease-in-out infinite;
+}
+
+.tech-badge.mongo { 
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    animation-delay: 1.5s;
+}
+.tech-badge.express { 
+    border-color: var(--text-white);
+    color: var(--text-white);
+    animation-delay: 1s;
+}
+.tech-badge.react { 
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    animation-delay: 0s;
+}
+.tech-badge.node { 
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    animation-delay: 0.5s;
+}
+
+.tech-badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 20px 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-white);
+    background: var(--gradient-main);
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: var(--shadow-glow);
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+}
+
+.cta-button:hover::before {
+    left: 100%;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(102, 126, 234, 0.5);
+}
+
+/* --- SECTIONS GÉNÉRALES --- */
+section {
+    padding: 100px 5%;
+    text-align: center;
+    position: relative;
+}
+
+h2 {
+    font-family: var(--font-body);
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    max-width: 700px;
+    margin: 0 auto 60px auto;
+    color: var(--text-gray);
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+/* --- CURRICULUM SECTION --- */
+.curriculum-section {
+    background: var(--secondary-dark);
+    position: relative;
+}
+
+.curriculum-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 60px;
+    padding: 8px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.curriculum-tab {
+    flex: 1;
+    padding: 15px 25px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-gray);
+    transition: all 0.3s ease;
+    border-radius: 50px;
+    font-family: var(--font-tech);
+}
+
+.curriculum-tab.active {
+    background: var(--gradient-main);
+    color: var(--text-white);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.curriculum-content {
+    display: none;
+    max-width: 900px;
+    margin: 0 auto;
+    animation: slideInUp 0.5s ease-out;
+}
+
+.curriculum-content.active {
+    display: block;
+}
+
+.chapter-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 30px 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    text-align: left;
+}
+
+.chapter-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+    border-color: var(--accent-blue);
+}
+
+.chapter-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: var(--text-white);
+    font-family: var(--font-tech);
+}
+
+.chapter-list {
+    list-style: none;
+    padding: 0;
+}
+
+.chapter-list li {
+    background: rgba(255, 255, 255, 0.05);
+    margin: 12px 0;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-blue);
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.chapter-list li:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateX(10px);
+}
+
+.section-title {
+    color: var(--accent-green);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 30px 0 20px 0;
+    font-family: var(--font-tech);
+    text-align: left;
+}
+
+/* --- SKILLS SECTION --- */
+.skills-section {
+    background: var(--primary-dark);
+    position: relative;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.skill-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-main);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.skill-card:hover::before {
+    transform: scaleX(1);
+}
+
+.skill-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+}
+
+.skill-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.skill-card:nth-child(1) .skill-icon { color: var(--accent-green); }
+.skill-card:nth-child(2) .skill-icon { color: var(--text-white); }
+.skill-card:nth-child(3) .skill-icon { color: var(--accent-blue); }
+.skill-card:nth-child(4) .skill-icon { color: var(--accent-green); }
+
+.skill-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-white);
+    font-family: var(--font-tech);
+}
+
+.skill-description {
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+/* --- INSCRIPTION SECTION --- */
+.inscription-section {
+    background: var(--secondary-dark);
+}
+
+.form-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 50px 40px;
+    max-width: 750px;
+    margin: 0 auto;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+}
+
+.form-container:hover {
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+    border-color: var(--accent-blue);
+}
+
+.form-instruction {
+    font-size: 1.3rem;
+    color: var(--text-white);
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.google-form-button {
+    display: inline-block;
+    padding: 20px 45px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-white);
+    background: var(--gradient-secondary);
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    box-shadow: 0 20px 40px rgba(240, 147, 251, 0.3);
+    margin-bottom: 30px;
+}
+
+.google-form-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(245, 87, 108, 0.5);
+}
+
+.form-help {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+/* --- FOOTER --- */
+footer {
+    padding: 60px 5%;
+    background: var(--primary-dark); /* Changed for contrast with inscription section */
+    text-align: center;
+    border-top: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+footer p {
+    margin: 8px 0;
+    color: var(--text-gray);
+    font-size: 1rem;
+}
+
+.footer-logo-container {
+    margin-top: 30px;
+    padding: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    display: inline-block;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background-color: #a0a0a0;
+
+}
+
+.footer-logo-container img {
+    max-width: 200px;
+    height: auto;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .hero-title { font-size: 3rem; }
+    .hero-subtitle { font-size: 1.2rem; }
+    h2 { font-size: 2.5rem; }
+    
+    .header-logo {
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 20px;
+    }
+    
+    .header-logo img { max-width: 150px; }
+    
+    .curriculum-tabs {
+        flex-direction: column;
+        gap: 5px;
+        border-radius: 20px;
+    }
+    
+    .curriculum-tab {
+        border-radius: 15px;
+    }
+    
+    .tech-stack {
+        gap: 15px;
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    section { padding: 80px 5%; }
+    
+    .cta-button, .google-form-button {
+        padding: 18px 40px;
+        font-size: 1.1rem;
+    }
+}
+
+/* --- SCROLL ANIMATIONS --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-on-scroll {
+    animation: fadeInUp 0.8s ease-out;
+}
+</style>
+
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="header-logo">
+            <img src="logo.png" alt="TOP EXCELLENCE Logo">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Formation Full Stack MERN</h1>
+            <p class="hero-subtitle">Maîtrisez JavaScript, React, Node.js et MongoDB pour créer des applications web complètes et modernes</p>
+            
+            <div class="tech-stack">
+                <span class="tech-badge react">React</span>
+                <span class="tech-badge node">Node.js</span>
+                <span class="tech-badge express">Express.js</span>
+                <span class="tech-badge mongo">MongoDB</span>
+            </div>
+            
+            <a href="#curriculum" class="cta-button">Découvrir le Programme</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Curriculum Section -->
+        <section class="curriculum-section" id="curriculum">
+            <h2>Programme de Formation</h2>
+            <p class="section-subtitle">Un parcours complet structuré en 4 chapitres pour maîtriser la stack MERN</p>
+            
+            <div class="curriculum-tabs">
+                <button class="curriculum-tab active" onclick="showCurriculum(event, 'javascript')">JavaScript</button>
+                <button class="curriculum-tab" onclick="showCurriculum(event, 'react')">React</button>
+                <button class="curriculum-tab" onclick="showCurriculum(event, 'nodejs')">Node.js</button>
+                <button class="curriculum-tab" onclick="showCurriculum(event, 'mongodb')">MongoDB</button>
+            </div>
+
+            <!-- JavaScript Content -->
+            <div id="javascript" class="curriculum-content active">
+                <div class="chapter-card">
+                    <h3 class="chapter-title">Chapitre 01 : JavaScript (Fondamentaux)</h3>
+                    <ul class="chapter-list">
+                        <li>Introduction et Environnement, Variables et types de données</li>
+                        <li>Opérateurs et Conditions</li>
+                        <li>Tableaux (arrays) et Objets</li>
+                        <li>Chaines de caractères et Fonctions</li>
+                        <li>Modules & JSON & stockage</li>
+                        <li>Programmation asynchrone (introduction) et DOM (Document Object Model)</li>
+                        <li>Gestion d'erreurs et debugging</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- React Content -->
+            <div id="react" class="curriculum-content">
+                <div class="chapter-card">
+                    <h3 class="chapter-title">Chapitre 02 : React</h3>
+                    <ul class="chapter-list">
+                        <li>Introduction à React, JSX et l'environnement de développement</li>
+                        <li>Composants, Props et Gestion de l'état (State)</li>
+                        <li>Cycle de vie et Hooks React (useState, useEffect)</li>
+                        <li>Gestion des événements et des formulaires</li>
+                        <li>Rendu conditionnel et affichage de listes</li>
+                        <li>Context API pour la gestion d'état globale</li>
+                        <li>React Router pour la navigation côté client</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Node.js Content -->
+            <div id="nodejs" class="curriculum-content">
+                <div class="chapter-card">
+                    <h3 class="chapter-title">Chapitre 03 : Node.js & Express.js</h3>
+                    <ul class="chapter-list">
+                        <li>Mise en place d'un serveur Express</li>
+                        <li>Routing avancé (GET, POST, PUT, DELETE)</li>
+                        <li>Utilisation de Insomnia pour tester les API REST</li>
+                        <li>Gestion des Middlewares pour le traitement des requêtes</li>
+                        <li>Stratégies de gestion des erreurs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MongoDB Content -->
+            <div id="mongodb" class="curriculum-content">
+                <div class="chapter-card">
+                    <h3 class="chapter-title">Chapitre 04 : MongoDB</h3>
+                    <h4 class="section-title">Introduction à NoSQL et MongoDB</h4>
+                    <ul class="chapter-list">
+                        <li>Concepts de base (Documents, Collections, BSON)</li>
+                        <li>Installation et configuration de MongoDB</li>
+                        <li>Utilisation de MongoDB Compass et du Shell pour les requêtes</li>
+                    </ul>
+                    <h4 class="section-title">Intégration avec Mongoose</h4>
+                    <ul class="chapter-list">
+                        <li>Connexion à la base de données depuis Node.js</li>
+                        <li>Définition de Schémas et de Modèles</li>
+                        <li>Opérations CRUD (Create, Read, Update, Delete) complètes</li>
+                        <li>Validation des données et Middlewares de Mongoose</li>
+                        <li>Modélisation des relations entre documents</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="skills-section" id="skills">
+            <h2>Compétences Acquises</h2>
+            <p class="section-subtitle">À l'issue de cette formation, vous maîtriserez les 4 technologies de la stack MERN</p>
+            
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">🍃</div>
+                    <h3 class="skill-title">MongoDB</h3>
+                    <p class="skill-description">Base de données NoSQL pour le stockage de données flexibles et scalables</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">⚡</div>
+                    <h3 class="skill-title">Express.js</h3>
+                    <p class="skill-description">Framework web minimaliste pour Node.js, création d'APIs REST robustes</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">⚛️</div>
+                    <h3 class="skill-title">React</h3>
+                    <p class="skill-description">Bibliothèque JavaScript pour créer des interfaces utilisateur interactives</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">🚀</div>
+                    <h3 class="skill-title">Node.js</h3>
+                    <p class="skill-description">Environnement d'exécution JavaScript côté serveur pour des applications performantes</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inscription Section -->
+        <section class="inscription-section" id="inscription">
+            <h2>Prêt à transformer votre carrière ?</h2>
+            <p class="section-subtitle">Les places sont limitées pour garantir un suivi de qualité. Réservez la vôtre dès aujourd'hui !</p>
+            <div class="form-container">
+                <p class="form-instruction">Cliquez sur le lien ci-dessous pour remplir le formulaire d'inscription :</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLTOPTE2naBvT-ozyhjFRpRrkmvxicpf4_SpTL5_DPVpKumw/viewform?usp=dialog" target="_blank" class="google-form-button">Accéder au formulaire d'inscription</a>
+                <p class="form-help">Après soumission, notre équipe vous contactera dans les 48h.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>2025 TOP EXCELLENCE - Tous droits réservés.</strong></p>
+        <p>Téléphone : 0770 86 56 34</p>
+        <p>Email : Groupetopexcellence@gmail.com</p>
+        <div class="footer-logo-container">
+            <img src="logo.png" alt="Logo TOP EXCELLENCE">
+        </div>
+    </footer>
+
+    <script>
+        function showCurriculum(event, curriculumName) {
+            // Hide all curriculum contents
+            const curriculumContents = document.querySelectorAll('.curriculum-content');
+            curriculumContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.curriculum-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected curriculum content
+            document.getElementById(curriculumName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.currentTarget.classList.add('active');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-on-scroll');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.chapter-card, .skill-card, .form-container').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
